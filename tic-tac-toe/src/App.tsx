@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Cell from "./components/Cell/Cell";
 
-function App() {
+const App = () => {
+  const cells = new Array(9).fill(0).map((_, i) => ({ index: i, value: null }));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        maxWidth: 700,
+        margin: "0 auto",
+        flexWrap: "wrap",
+      }}
+    >
+      {cells.map((c) => (
+        <Cell key={c.index} />
+      ))}
     </div>
   );
-}
+};
 
 export default App;
