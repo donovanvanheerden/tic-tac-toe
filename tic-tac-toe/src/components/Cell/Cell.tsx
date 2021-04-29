@@ -1,32 +1,35 @@
 import { useState } from "react";
+import useStyles from "./Cell.styles";
+import clsx from "clsx";
+import useApi from "../../hooks/useApi";
 
-const Cell = () => {
+interface Props {
+  id: number;
+}
+
+const Cell = ({ id }: Props) => {
+  const classes = useStyles();
+  const { selectCell } = useApi();
+
   const [value, setValue] = useState<string | null>(null);
 
   const handleClick = () => {
-    setValue((v) => (v === "X" ? "O" : "X"));
+    if (value) return;
+
+    selectCell(id);
+    setValue("X");
   };
 
+  const isCross = value === "X";
+
+  const className = clsx([
+    classes.root,
+    { [classes.o]: !isCross },
+    { [classes.x]: isCross },
+  ]);
+
   return (
-    <div
-      style={{
-        display: "flex",
-        width: 150,
-        height: 150,
-        padding: 16,
-        backgroundColor: "#dfe6e94a",
-        margin: 4,
-        borderRadius: 4,
-        justifyContent: "center",
-        alignItems: "center",
-        fontSize: "72pt",
-        fontFamily: "Sans-Serif",
-        color: value === "X" ? "#16a085" : "#2980b9",
-        cursor: "pointer",
-        userSelect: "none",
-      }}
-      onClick={handleClick}
-    >
+    <div className={className} onClick={handleClick}>
       {value}
     </div>
   );
