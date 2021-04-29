@@ -35,8 +35,11 @@ namespace TicTacToe.Core.Commands
                 if (request.Cell == 0 || request.Cell > 9) throw new InvalidCell("Cell is not valid");
 
                 game.SetCell(request.Cell, request.Value);
-                
-                
+
+
+                // TODO: determine if the game is won or not
+                // TODO: determine if there is a need for the game to continue depending on how many cells are left and if a win is possible
+
                 Random rng = new Random();
 
                 var cell = rng.Next(1, 9);
@@ -44,7 +47,7 @@ namespace TicTacToe.Core.Commands
                 while (game.CellHasValue(cell)) cell = rng.Next(1, 9);
 
                 game.SetCell(cell, "O");
-
+                
                 
                 _db.Games.Update(game);
 
