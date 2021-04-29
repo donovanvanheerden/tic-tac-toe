@@ -27,6 +27,7 @@ namespace TicTacToe.Core.Commands
                 };
 
                 await _db.Games.AddAsync(game);
+                await _db.SaveChangesAsync(cancellationToken);
 
                 return await Task.FromResult(game);
             }
