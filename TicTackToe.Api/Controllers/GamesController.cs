@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TicTacToe.Core.Commands;
 using TicTacToe.Core.Domain.Entities;
+using TicTacToe.Core.Dtos;
 
 namespace TicTackToe.Api.Controllers
 {
@@ -33,19 +34,19 @@ namespace TicTackToe.Api.Controllers
             return await _mediator.Send(cmd);
         }
 
-        [HttpPost("play-move")]
-        public async Task PlayMove()
+        [HttpPost("{id}/play-move")]
+        public async Task<Move> PlayMove(PlayMove cmd)
         {
-
+            return await _mediator.Send(cmd);
         }
 
-        [HttpPost("reset/{id}")]
+        [HttpPost("{id}/reset")]
         public async Task ResetGame(string id)
         {
 
         }
 
-        [HttpPost("load/{id}")]
+        [HttpPost("{id}/load")]
         public async Task LoadGame(string id)
         {
 
