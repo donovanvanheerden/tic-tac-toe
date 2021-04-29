@@ -9,7 +9,7 @@ interface Props {
 
 const Cell = ({ id }: Props) => {
   const classes = useStyles();
-  const { selectCell } = useApi();
+  const { selectCell } = useApi("https://localhost:5001");
 
   const [value, setValue] = useState<string | null>(null);
 
