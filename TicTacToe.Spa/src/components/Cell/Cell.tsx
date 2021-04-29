@@ -1,23 +1,19 @@
-import { useState } from "react";
 import useStyles from "./Cell.styles";
 import clsx from "clsx";
-import useApi from "../../hooks/useApi";
 
 interface Props {
   id: number;
+  value: string;
+  onClick: () => void;
 }
 
-const Cell = ({ id }: Props) => {
+const Cell = ({ value = "", onClick }: Props) => {
   const classes = useStyles();
-  const { selectCell } = useApi("https://localhost:5001");
-
-  const [value, setValue] = useState<string | null>(null);
 
   const handleClick = () => {
     if (value) return;
 
-    selectCell(id);
-    setValue("X");
+    onClick();
   };
 
   const isCross = value === "X";

@@ -11,9 +11,7 @@ const App = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [open, setOpen] = useState(true);
 
-  const { start } = useApi("https://localhost:5001");
-
-  const cells = new Array(9).fill(0).map((_, i) => ({ index: i, value: null }));
+  const { start, playMove } = useApi("https://localhost:5001");
 
   const handleStart = async (name: string) => {
     setOpen(false);
@@ -23,12 +21,39 @@ const App = () => {
     setGame(game);
   };
 
+  const handleCellClick = (cellId: number) => async () => {
+    const { cell, value } = await playMove(game?.id as string, cellId);
+
+    setGame((g) => {
+      const n = { ...g };
+
+      Object.keys(n).forEach((key) => {
+        if (`cell${cellId}` === key) n[key as keyof Game] = "X";
+        if (`cell${cell}` === key) n[key as keyof Game] = value;
+      });
+
+      return { ...n } as Game;
+    });
+  };
+
   return (
     <>
       <div className={classes.root}>
-        {cells.map((c) => (
-          <Cell key={c.index} id={c.index + 1} />
-        ))}
+        {Object.keys(game || {})
+          .filter((key) => key.includes("cell"))
+          .map((key) => {
+            const id = parseInt(key.replace("cell", ""));
+            const value = game ? game[key as keyof Game] : "";
+
+            return (
+              <Cell
+                key={id}
+                id={id}
+                value={value}
+                onClick={handleCellClick(id)}
+              />
+            );
+          })}
       </div>
       <Menu open={open} onNewGame={handleStart} />
     </>
